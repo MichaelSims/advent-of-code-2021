@@ -1,6 +1,6 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        return input.map(String::toInt).windowed(2).count { (first, second) -> second > first }
+        return input.map(String::toInt).windowed(2).count { (a, b) -> b > a }
     }
 
     fun part2(input: List<String>): Int {
@@ -8,7 +8,7 @@ fun main() {
             .asSequence()
             .map(String::toInt)
             .windowed(4)
-            .count { it.last() > it.first() }
+            .count { (a, _, _, d) -> d > a }
     }
 
     // test if implementation meets criteria from the description, like:
