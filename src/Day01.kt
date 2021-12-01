@@ -7,10 +7,8 @@ fun main() {
         return input
             .asSequence()
             .map(String::toInt)
-            .windowed(3)
-            .map(List<Int>::sum)
-            .windowed(2)
-            .count { (first, second) -> second > first }
+            .windowed(4)
+            .count { it.last() > it.first() }
     }
 
     // test if implementation meets criteria from the description, like:
