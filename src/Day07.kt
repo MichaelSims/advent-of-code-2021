@@ -1,19 +1,43 @@
 import kotlin.math.abs
 import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 import kotlin.time.measureTimedValue
 
 @OptIn(ExperimentalTime::class)
 fun main() {
-    fun getCostToBestDestination(input: List<String>, getFuelCost: (start: Int, end: Int) -> Int): Int {
+
+    fun part1(input: List<String>): Int {
         val starts = input.first().split(",").map(String::toInt).sorted()
-        return (starts.first()..starts.last()).minOf { end -> starts.sumOf { start -> getFuelCost(start, end) } }
+        var cheapest = Int.MAX_VALUE
+        for (end in starts.first()..starts.last()) {
+            var cost = 0
+            for (start in starts) {
+                cost += abs(start - end)
+                if (cost > cheapest) {
+                    return cheapest
+                }
+            }
+            cheapest = cost
+        }
+        return cheapest
     }
 
-    fun triangular(n: Int): Int = (n downTo 0).reduce(Int::plus)
-
-    fun part1(input: List<String>): Int = getCostToBestDestination(input) { start, end -> abs(start - end) }
-    fun part2(input: List<String>): Int = getCostToBestDestination(input) { start, end -> triangular(abs(start - end)) }
+    fun part2(input: List<String>): Int {
+        val starts = input.first().split(",").map(String::toInt).sorted()
+        var cheapest = Int.MAX_VALUE
+        for (end in starts.first()..starts.last()) {
+            var cost = 0
+            for (start in starts) {
+                for (stepCost in abs(start - end) downTo 0) {
+                    cost += stepCost
+                    if (cost > cheapest) {
+                        return cheapest
+                    }
+                }
+            }
+            cheapest = cost
+        }
+        return cheapest
+    }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day07_test")
